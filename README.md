@@ -5,6 +5,7 @@ Java RMI implementation of King's Valley, a strategy board game conceptualized b
 ## The Board
 
 As illustrated by the picture below, the board consists of five rows and five columns:
+
 ![alt text](http://www.gift-box.co.jp/english/kingsvalley/KV15.jpg)  
 
 Each player receives five pieces:
