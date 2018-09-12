@@ -16,5 +16,5 @@ All board cells (positions) present the same behavior, except for the one in the
 
 ## The Rules
 
-On every turn, one of the players must reallocate one of their pieces. Pieces can move in any direction. The only restraint is that the pieces must move the maximum number of cells that it can (as long as there are empty cells along the way), stopping only when it reaches the border or if it bumps into another piece.
+On every turn, one of the players must reallocate one of their pieces. Pieces can move in any direction. The only restraint is that the pieces must move the maximum amount of cells as it possibly can (as long as there are empty cells along the way), stopping only when it reaches the border or if it bumps into another piece.
 The goal is to place your king piece on the center cell (position 3x3). 
