@@ -5,23 +5,31 @@ public class Match {
     private boolean ready;
     private Player currentPlayer;
 
-    public static final char VAZIO = '.';
-    public static final char PLAYER1_SOLDAOD = 'c';
-    public static final char PLAYER1_REI = 'C';
-    public static final char PLAYER2_SOLDADO = 'e';
-    public static final char PLAYER2_REI = 'E';
+    private static final char VAZIO = '.';
+    private static final char PLAYER1_SOLDAOD = 'c';
+    private static final char PLAYER1_REI = 'C';
+    private static final char PLAYER2_SOLDADO = 'e';
+    private static final char PLAYER2_REI = 'E';
 
     public Match(Player player1) {
         this.player1 = player1;
         this.ready = false;
         this.currentPlayer = this.player1;
 
-        /* Inicia tabuleiro com posicoes vazias */
+        /* Inicia o tabuleiro */
+
         for(int i = 0; i < 5; i++) {
             if(i == 2)
                 this.board[0][i] = PLAYER1_REI;
             else
                 this.board[0][i] = PLAYER1_SOLDAOD;
+        }
+
+        for(int i = 0; i < 5; i++) {
+            if(i == 2)
+                this.board[4][i] = PLAYER2_REI;
+            else
+                this.board[4][i] = PLAYER2_SOLDADO;
         }
     }
 
