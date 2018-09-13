@@ -1,11 +1,10 @@
 import java.rmi.Naming;
-import java.rmi.RemoteException;
 import java.util.Scanner;
 
 
 public class KingsValleyClient {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         if (args.length < 2) {
             System.out.println("Uso: java KingsValleyClient <servidor> <nome_jogador>");
             System.exit(1);
@@ -31,7 +30,8 @@ public class KingsValleyClient {
             int hasMatch = game.temPartida(id);
 
             System.out.println("Procurando partida ...");
-            /* Verifica se ha alguma partida ativa */
+
+            // Verifica se há alguma partida ativa
             while (hasMatch != 1 && hasMatch != 2) {
                 if (hasMatch == -2) {
                     System.err.println("Tempo de espera esgotado!");
@@ -145,7 +145,7 @@ public class KingsValleyClient {
 
         } catch (Exception e) {
             System.err.println("KingsValley client failed!");
-            System.err.println(e);
+            System.err.println(e.toString());
         }
     }
 }

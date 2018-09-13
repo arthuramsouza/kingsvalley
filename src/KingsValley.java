@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     private List<Player> players;
     private List<Match> matches;
-    private int next_uid;
+    private int nextId;
 
     public static final int MAX_MATCHES = 500;
     public static final int MAX_PLAYERS = MAX_MATCHES * 2;
@@ -22,7 +22,7 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
 
     private final ReadWriteLock uid_readWriteLock = new ReentrantReadWriteLock();
     private final Lock uid_readLock = uid_readWriteLock.readLock();
-    private final Lock uid_writeLock = uid_readWriteLock.writeLock();
+    private final Lock id_writeLock = uid_readWriteLock.writeLock();
 
     private final ReadWriteLock players_readWriteLock = new ReentrantReadWriteLock();
     private final Lock players_readLock = players_readWriteLock.readLock();
@@ -33,32 +33,29 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     private final Lock matches_writeLock = matches_readWriteLock.writeLock();
 
 
-    /* Construtor */
     public KingsValley() throws RemoteException {
-    this.players = new ArrayList<Player>();
-    this.matches = new ArrayList<Match>();
+        this.players = new ArrayList<Player>();
+        this.matches = new ArrayList<Match>();
 
-    this.next_uid = 0;
+        this.nextId = 0;
     }
 
-
-    /* Metodos privados */
     private Player getPlayerById(int uid) {
-    players_readLock.lock();
-    try {
-      for(Player p : players) {
-        if(p.getId() == uid) {
-          return p;
+        players_readLock.lock();
+        try {
+            for(Player p : players) {
+                if(p.getId() == uid) {
+                    return p;
+                }
+            }
+            return null;
         }
-      }
-      return null;
-    } finally {
-      players_readLock.unlock();
-    }
+        finally {
+            players_readLock.unlock();
+        }
     }
 
-    /* TODO *** implementar, testar */
-    /* Elimina objetos de jogadores e partidas cujo timeout expirou */
+    // Elimina objetos de jogadores e partidas cujo timeout expirou */
     public void garbageCollector() {
         List<Player> playersDelete;
         List<Match> matchesDelete;
@@ -148,63 +145,64 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
             players_readLock.unlock();
         }
 
-        uid_writeLock.lock();
+        id_writeLock.lock();
         players_writeLock.lock();
         try {
-          Player p = new Player(next_uid++, name);
-          players.add(p);
+            Player p = new Player(nextId++, name);
+            players.add(p);
 
-          System.out.println("Usuario " + p.getName() + " (" + p.getId() + ") entrou!");
-          p.updateTimestamp();
-          return p.getId();
-        } finally {
-          uid_writeLock.unlock();
-          players_writeLock.unlock();
+            System.out.println("Usuario " + p.getName() + " (" + p.getId() + ") entrou!");
+            p.updateTimestamp();
+            return p.getId();
+        }
+        finally {
+            id_writeLock.unlock();
+            players_writeLock.unlock();
         }
     }
 
     /* Finaliza partida de modo normal */
     public int encerraPartida(int uid) throws RemoteException {
-    Player p = getPlayerById(uid);
+        Player p = getPlayerById(uid);
 
-    if(p == null) {
-        return -1;
-    }
-
-    Match m = p.getMatch();
-
-    if(m == null) {
-        return -1;
-    }
-
-    players_writeLock.lock();
-    System.out.println("Removendo player " + p.getName());
-    try {
-        if(p == m.getPlayer1()) {
-            m.setPlayer1(null);
+        if(p == null) {
+            return -1;
         }
-        else {
-            m.setPlayer2(null);
+
+        Match m = p.getMatch();
+
+        if(m == null) {
+            return -1;
         }
-        players.remove(p);
-    }
-    finally {
-        players_writeLock.unlock();
-    }
 
-
-    matches_writeLock.lock();
-    try {
-        if(m.canDelete()) {
-            System.out.println("Removendo Match");
-            matches.remove(m);
+        players_writeLock.lock();
+        System.out.println("Removendo player " + p.getName());
+        try {
+            if(p == m.getPlayer1()) {
+                m.setPlayer1(null);
+            }
+            else {
+                m.setPlayer2(null);
+            }
+            players.remove(p);
         }
-    }
-    finally {
-        matches_writeLock.unlock();
-    }
+        finally {
+            players_writeLock.unlock();
+        }
 
-    return 0;
+
+        matches_writeLock.lock();
+        try {
+            if(m.canDelete()) {
+                System.out.println("Removendo Match");
+                matches.remove(m);
+            }
+        }
+        finally {
+            matches_writeLock.unlock();
+        }
+
+        return 0;
     }
 
 
@@ -325,12 +323,12 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     Player p = getPlayerById(uid);
 
     if(p == null) {
-      return null;  /* Erro */
+        return null;  /* Erro */
     }
     Match m = p.getMatch();
 
     if(m == null) {
-      return null; /* Erro */
+        return null; /* Erro */
     }
 
     char[][] board = m.getBoard();
@@ -376,26 +374,27 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
 
     /* TODO testar */
     public String obtemOponente(int uid) throws RemoteException {
-    Player p = getPlayerById(uid);
+        Player p = getPlayerById(uid);
 
-    if(p == null) {
-        return null;
-    }
-
-    Match m = p.getMatch();
-
-    if(m == null) {
-        return null;
-    }
-
-    if (m.isReady()) {
-        if(m.getPlayer1() == p) {
-            return m.getPlayer2().getName();
-        } else {
-            return m.getPlayer1().getName();
+        if(p == null) {
+            return null;
         }
-    }
-    return null;
+
+        Match m = p.getMatch();
+
+        if(m == null) {
+            return null;
+        }
+
+        if (m.isReady()) {
+            if(m.getPlayer1() == p) {
+                return m.getPlayer2().getName();
+            }
+            else {
+                return m.getPlayer1().getName();
+            }
+        }
+        return null;
     }
 
 }
