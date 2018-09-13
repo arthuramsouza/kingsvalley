@@ -40,6 +40,17 @@ public class Match {
         this.ready = true;
     }
 
+    public boolean canDelete() { return this.player1 == null && this.player2 == null; }
+
+    public Player getGanhador() {
+        if (board[3][3] == PLAYER1_REI)
+            return player1;
+        else if (board[3][3] == PLAYER2_REI)
+            return player2;
+        else
+            return null;
+    }
+
     public boolean isReady() { return this.ready; }
     public Player getPlayer1() { return this.player1; }
     public Player getPlayer2() { return this.player2; }
@@ -50,37 +61,22 @@ public class Match {
     this.currentPlayer = (this.currentPlayer == this.player1 ? this.player2 : this.player1);
     }
 
-    public int movePeca(int id, int linha, int coluna, int sentido) {
+    public int movePeca(int linha, int coluna, int sentido) {
 
-    if(!this.isReady()) {
-      return -2;  // partida não iniciada
-    }
-
-    if(currentPlayer.hasTimedOut()) {
-      return 2; // time-out
-    }
-
-    if(currentPlayer.getId() != id) {
-        return -4; // não é a vez do jogador
-    }
-
-    if (linha < 0 || linha > 4 || coluna < 0 || coluna > 4 || sentido < 0 || sentido > 7) {
-        return 0;
-    }
-
-    if (id == player1.getId()) {
-        if (board[linha][coluna] == 's' || board[linha][coluna] == 'r') {
-            return 0; // peca do player 2
+        if (linha < 0 || linha > 4 || coluna < 0 || coluna > 4 || sentido < 0 || sentido > 7) {
+            return 0;
         }
-    }
-    else if (id == player2.getId()) {
-        if (board[linha][coluna] == 'S' || board[linha][coluna] == 'R') {
-            return 0; // peca do player 1
+
+        if (currentPlayer == player1) {
+            if (board[linha][coluna] == 's' || board[linha][coluna] == 'r') {
+                return 0; // peca do player 2
+            }
         }
-    }
-    else {
-        return -1; // jogador não encontrado
-    }
+        else if (currentPlayer == player2) {
+            if (board[linha][coluna] == 'S' || board[linha][coluna] == 'R') {
+                return 0; // peca do player 1
+            }
+        }
 
     char peca = board[linha][coluna];
     int aux1 = coluna;
