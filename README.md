@@ -2,8 +2,8 @@
 
 Java RMI implementation of King's Valley, a strategy board game conceptualized by Mitsuo Yamamoto in 2006.
 
-![Java](https://img.shields.io/badge/java-10-blue.svg)
-![License](https://img.shields.io/github/license/mashape/apistatus.svg)
+[![Java](https://img.shields.io/badge/java-10-blue.svg)](https://www.oracle.com/technetwork/java/javase/10-relnote-issues-4108729.html)
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
 ## The Board
 
