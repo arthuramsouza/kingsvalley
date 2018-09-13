@@ -2,11 +2,14 @@
 
 Java RMI implementation of King's Valley, a strategy board game conceptualized by Mitsuo Yamamoto in 2006.
 
+![Java](https://img.shields.io/badge/java-10-blue.svg)
+![License](https://img.shields.io/github/license/mashape/apistatus.svg)
+
 ## The Board
 
 As illustrated by the picture below, the board consists of five rows and five columns:
 
-![alt text](http://www.gift-box.co.jp/english/kingsvalley/KV15.jpg)  
+![King's Valley board](http://www.gift-box.co.jp/english/kingsvalley/KV15.jpg)  
 
 Each player receives five pieces:
 - Four soldiers
