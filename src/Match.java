@@ -16,7 +16,7 @@ public class Match {
         this.ready = false;
         this.currentPlayer = this.player1;
 
-        /* Inicia o tabuleiro */
+        // Inicia o tabuleiro
 
         for(int i = 0; i < 5; i++) {
             if(i == 2)
@@ -31,6 +31,13 @@ public class Match {
             else
                 this.board[4][i] = PLAYER2_SOLDADO;
         }
+
+        for(int j = 1; j < 4; j++) {
+            for (int i = 0; i < 5; i++) {
+                this.board[j][i] = VAZIO;
+            }
+        }
+
     }
 
     public void setPlayer1(Player p) { this.player1 = p; }

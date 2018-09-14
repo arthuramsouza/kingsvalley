@@ -14,7 +14,7 @@ public class KingsValleyClient {
             IKingsValley game = (IKingsValley) Naming.lookup("//" + args[0] + "/KingsValley");
             Scanner stdin = new Scanner(System.in);
 
-            /* Registra jogador no servidor remoto */
+            // Registra jogador no servidor remoto
             int id = game.registraJogador(args[1]);
 
             if (id == -1) {
@@ -43,18 +43,18 @@ public class KingsValleyClient {
                     System.exit(1);
                 }
 
-                /* Verificacao a cada 1 segundo */
+                // Verificao a cada 1 segundo
                 Thread.sleep(1000);
                 hasMatch = game.temPartida(id);
             }
 
             System.out.println("Segundo jogador " + game.obtemOponente(id) + " entrou ....");
 
-            /* Verifica se eh a vez deste jogador */
+            // Verifica se eh a vez deste jogador
             int isMyTurn = game.ehMinhaVez(id);
             String message = null;
 
-            /* Loop de jogo */
+            // Loop de jogo
             while (true) {
                 if (isMyTurn == -2) {
                     System.err.println("Não existem dois jogadores nesta partida!");
@@ -86,7 +86,7 @@ public class KingsValleyClient {
                         break;
                 }
 
-                /* Final de jogo, exibe resultado e encerra execucao */
+                // Final de jogo, exibe resultado e encerra
                 if (isMyTurn > 1 && isMyTurn < 7) {
                     System.out.println(message);
 
@@ -98,10 +98,10 @@ public class KingsValleyClient {
                         System.exit(0);
                     }
                 }
-                /* Pode apenas mover as pecas no tabuleiro */
+                // Pode apenas mover as pecas no tabuleiro
                 int ret_movePeca = -1;
 
-                while (ret_movePeca != 1 && ret_movePeca != -3) {
+                while (ret_movePeca != 1 && ret_movePeca != -3 && isMyTurn == 1) {
                     System.out.println(game.obtemTabuleiro(id));
 
                     System.out.println("Informe a posição da peça a ser movida.");
@@ -136,6 +136,9 @@ public class KingsValleyClient {
                             game.encerraPartida(id);
                             System.exit(1);
                         case -3:
+                            System.out.println("Parâmetros inválidos!");
+                            break;
+                        case -4:
                             System.out.println("Nao é a sua vez de jogar!");
                             break;
                     }

@@ -21,8 +21,9 @@ public class KingsValleyServer {
             game.garbageCollector();
         }
         catch(Exception e) {
+            System.err.println(e);
             System.err.println("KingsValley server failed!");
-            //System.exit(1);
+            // System.exit(1);
         }
     }
 }
