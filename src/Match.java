@@ -33,7 +33,7 @@ public class Match {
         }
     }
 
-    public void setPlayer1(Player p) { this.player1 = p; };
+    public void setPlayer1(Player p) { this.player1 = p; }
 
     public void setPlayer2(Player player2) {
         this.player2 = player2;

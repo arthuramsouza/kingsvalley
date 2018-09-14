@@ -12,16 +12,14 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     private List<Match> matches;
     private int nextId;
 
-    public static final int MAX_MATCHES = 500;
-    public static final int MAX_PLAYERS = MAX_MATCHES * 2;
+    private static final int MAX_MATCHES = 500;
+    private static final int MAX_PLAYERS = MAX_MATCHES * 2;
 
-    public static final int TIMEOUT_SECONDPLAYER = 120;
-    public static final int TIMEOUT_ROUND = 60;
     public static final int TIMEOUT_MATCH = 60;
     public static final int TIMEOUT_GARBAGE = 30;
 
     private final ReadWriteLock uid_readWriteLock = new ReentrantReadWriteLock();
-    private final Lock uid_readLock = uid_readWriteLock.readLock();
+    // private final Lock id_readLock = uid_readWriteLock.readLock();
     private final Lock id_writeLock = uid_readWriteLock.writeLock();
 
     private final ReadWriteLock players_readWriteLock = new ReentrantReadWriteLock();
@@ -34,8 +32,8 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
 
 
     public KingsValley() throws RemoteException {
-        this.players = new ArrayList<Player>();
-        this.matches = new ArrayList<Match>();
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
 
         this.nextId = 0;
     }
@@ -62,8 +60,8 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
 
         try {
             while(true) {
-                /* Cria lista de players para remocao  */
-                playersDelete = new ArrayList<Player>();
+                /* Cria lista de jogadores a serem removidos  */
+                playersDelete = new ArrayList<>();
                 players_readLock.lock();
 
                 try {
@@ -77,8 +75,8 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
                     players_readLock.unlock();
                 }
 
-                /* Cria lista de matches para remocao */
-                matchesDelete = new ArrayList<Match>();
+                /* Cria lista de matches a serem removidas */
+                matchesDelete = new ArrayList<>();
 
                 matches_readLock.lock();
 
@@ -128,7 +126,7 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     }
 
     /* Registra jogadores no servidor */
-    public int registraJogador(String name) throws RemoteException {
+    public int registraJogador(String name) {
         if(matches.size() == MAX_PLAYERS) {
             return -2;
         }
@@ -162,8 +160,8 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     }
 
     /* Finaliza partida de modo normal */
-    public int encerraPartida(int uid) throws RemoteException {
-        Player p = getPlayerById(uid);
+    public int encerraPartida(int id) {
+        Player p = getPlayerById(id);
 
         if(p == null) {
             return -1;
@@ -207,7 +205,7 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
 
 
     /* Verifica se tem alguma partida aguardando jogador */
-    public int temPartida(int uid) throws RemoteException {
+    public int temPartida(int uid) {
         Player p = getPlayerById(uid);
 
         if(p == null) {
@@ -264,10 +262,10 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     }
 
 
-    /* Verifica se eh a vez do jogador */
-    public int ehMinhaVez(int uid) throws RemoteException {
+    /* Verifica se é a vez do jogador */
+    public int ehMinhaVez(int id) {
 
-        Player p = getPlayerById(uid);
+        Player p = getPlayerById(id);
 
         if(p == null) {
             return -1;   /* Erro */
@@ -291,7 +289,7 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
             return 5;
         }
 
-        if(oponente.hasTimedOut()) {
+        if (oponente.hasTimedOut()) {
             return 5;
         }
 
@@ -319,8 +317,8 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     }
 
     /* Retorna o tabuleiro atual */
-    public String obtemTabuleiro(int uid) throws RemoteException {
-    Player p = getPlayerById(uid);
+    public String obtemTabuleiro(int id) {
+    Player p = getPlayerById(id);
 
     if(p == null) {
         return null;  /* Erro */
@@ -344,9 +342,10 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
             " " + board[4][0] + " | " + board[4][1] + " | " + board[4][2] + " | " + board[4][3] + " | " + board[4][4];
     }
 
-    public int movePeca(int id, int linha, int coluna,int sentido) throws RemoteException {
+    public int movePeca(int id, int linha, int coluna,int sentido) {
 
         Player p = getPlayerById(id);
+
         if(p == null) {
             return -3;      // Parêmetros inválidos
         }
@@ -356,12 +355,12 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
             return -3;      // Parêmetros inválidos
         }
 
-        if(m.getCurrentPlayer() != p) {
-            return -4;      // Não é a vez do jogador
-        }
-
         if(!m.isReady()) {
             return -2;        // Partida não iniciada
+        }
+
+        if(m.getCurrentPlayer() != p) {
+            return -4;      // Não é a vez do jogador
         }
 
         if(m.getCurrentPlayer().hasTimedOut()) {
@@ -373,8 +372,8 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
     }
 
     /* TODO testar */
-    public String obtemOponente(int uid) throws RemoteException {
-        Player p = getPlayerById(uid);
+    public String obtemOponente(int id) {
+        Player p = getPlayerById(id);
 
         if(p == null) {
             return null;

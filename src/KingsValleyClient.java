@@ -52,7 +52,7 @@ public class KingsValleyClient {
 
             /* Verifica se eh a vez deste jogador */
             int isMyTurn = game.ehMinhaVez(id);
-            String message_str = null;
+            String message = null;
 
             /* Loop de jogo */
             while (true) {
@@ -70,25 +70,25 @@ public class KingsValleyClient {
 
                 switch (isMyTurn) {
                     case 2:
-                        message_str = "Você venceu!";
+                        message = "Você venceu!";
                         break;
                     case 3:
-                        message_str = "Você perdeu!";
+                        message = "Você perdeu!";
                         break;
                     case 4:
-                        message_str = "Empate!";
+                        message = "Empate!";
                         break;
                     case 5:
-                        message_str = "Você venceu por WO!";
+                        message = "Você venceu por WO!";
                         break;
                     case 6:
-                        message_str = "Você perdeu por WO!";
+                        message = "Você perdeu por WO!";
                         break;
                 }
 
                 /* Final de jogo, exibe resultado e encerra execucao */
                 if (isMyTurn > 1 && isMyTurn < 7) {
-                    System.out.println(message_str);
+                    System.out.println(message);
 
                     if (game.encerraPartida(id) == -1) {
                         System.err.println("Erro ao encerrar jogo!");
@@ -101,8 +101,7 @@ public class KingsValleyClient {
                 /* Pode apenas mover as pecas no tabuleiro */
                 int ret_movePeca = -1;
 
-                while (ret_movePeca != 1 && ret_movePeca != -2 &&
-                        ret_movePeca != -3) {
+                while (ret_movePeca != 1 && ret_movePeca != -3) {
                     System.out.println(game.obtemTabuleiro(id));
 
                     System.out.println("Informe a posição da peça a ser movida.");

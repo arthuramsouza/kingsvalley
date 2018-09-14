@@ -14,7 +14,7 @@ public class Player {
 
   public int getId() { return this.id; }
   public String getName() { return this.name; }
-  public long getTimestamp() { return this.timestamp; }
+  // public long getTimestamp() { return this.timestamp; }
   public Match getMatch() { return this.match; }
   public void setMatch(Match match) { this.match = match; }
 
