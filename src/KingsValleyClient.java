@@ -101,10 +101,12 @@ public class KingsValleyClient {
                         System.exit(0);
                     }
                 }
+
                 // Pode apenas mover as pecas no tabuleiro
                 int ret_movePeca = -1;
 
                 while ((ret_movePeca != 1) && (ret_movePeca != -3) && (isMyTurn == 1)) {
+
                     System.out.println(game.obtemTabuleiro(id));
 
                     System.out.println("Informe a posição da peça a ser movida.");
@@ -121,7 +123,7 @@ public class KingsValleyClient {
 
                     switch (ret_movePeca) {
                         case 2:
-                            System.out.println("Você perdeu!");
+                            System.out.println("Você perdeu por WO!");
                             game.encerraPartida(id);
                             System.exit(0);
                         case 1:

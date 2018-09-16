@@ -330,15 +330,18 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
 
     char[][] board = m.getBoard();
 
-    return  "\n " + board[0][0] + " | " + board[0][1] + " | " + board[0][2] + " | " + board[0][3] + " | " + board[0][4] + "\n" +
-            "---+---+---+---+---\n" +
-            " " + board[1][0] + " | " + board[1][1] + " | " + board[1][2] + " | " + board[1][3] + " | " + board[1][4] + "\n" +
-            "---+---+---+---+---\n" +
-            " " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " | " + board[2][3] + " | " + board[2][4] + "\n" +
-            "---+---+---+---+---\n" +
-            " " + board[3][0] + " | " + board[3][1] + " | " + board[3][2] + " | " + board[3][3] + " | " + board[3][4] + "\n" +
-            "---+---+---+---+---\n" +
-            " " + board[4][0] + " | " + board[4][1] + " | " + board[4][2] + " | " + board[4][3] + " | " + board[4][4];
+    return  "\n      0     1     2     3     4  \t  SENTIDOS\n" +
+            "   +-----+-----+-----+-----+-----+\t+-----------------------+-----------------------+\n" +
+            "0  |  "  + board[0][0] + "  |  " + board[0][1] + "  |  "  + board[0][2]+ "  |  " + board[0][3] + "  |  " + board[0][4] + "  |\t| 0 - Direita           | 4 - Esquerda          |\n" +
+            "   +-----+-----+-----+-----+-----+\t+-----------------------+-----------------------+\n" +
+            "1  |  "  + board[1][0] + "  |  " + board[1][1] + "  |  " + board[1][2] + "  |  " + board[1][3] + "  |  " + board[1][4] + "  |\t| 1 - Direita Inferior  | 5 - Esquerda Superior |\n" +
+            "   +-----+-----+-----+-----+-----+\t+-----------------------+-----------------------+\n" +
+            "2  |  "  + board[2][0] + "  |  " + board[2][1] + "  |  " + board[2][2] + "  |  " + board[2][3] + "  |  " + board[2][4] + "  |\t| 2 - Baixo             | 6 - Cima              |\n" +
+            "   +-----+-----+-----+-----+-----+\t+-----------------------+-----------------------+\n" +
+            "3  |  "  + board[3][0] + "  |  " + board[3][1] + "  |  " + board[3][2] + "  |  " + board[3][3] + "  |  " + board[3][4] + "  |\t| 3 - Esquerda Inferior | 7 - Direita Superior  |\n" +
+            "   +-----+-----+-----+-----+-----+\t+-----------------------+-----------------------+\n" +
+            "4  |  "  + board[4][0] + "  |  " + board[4][1] + "  |  " + board[4][2] + "  |  " + board[4][3] + "  |  " + board[4][4] + "  |\n" +
+            "   +-----+-----+-----+-----+-----+\n";
     }
 
     public int movePeca(int id, int linha, int coluna,int sentido) throws RemoteException {
