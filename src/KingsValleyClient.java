@@ -50,12 +50,15 @@ public class KingsValleyClient {
 
             System.out.println("Segundo jogador " + game.obtemOponente(id) + " entrou ....");
 
-            // Verifica se eh a vez deste jogador
-            int isMyTurn = game.ehMinhaVez(id);
+            int isMyTurn;
             String message = null;
 
             // Loop de jogo
             while (true) {
+
+                // Verifica se eh a vez deste jogador
+                isMyTurn = game.ehMinhaVez(id);
+
                 if (isMyTurn == -2) {
                     System.err.println("Não existem dois jogadores nesta partida!");
                     game.encerraPartida(id);
@@ -101,7 +104,7 @@ public class KingsValleyClient {
                 // Pode apenas mover as pecas no tabuleiro
                 int ret_movePeca = -1;
 
-                while (ret_movePeca != 1 && ret_movePeca != -3 && isMyTurn == 1) {
+                while ((ret_movePeca != 1) && (ret_movePeca != -3) && (isMyTurn == 1)) {
                     System.out.println(game.obtemTabuleiro(id));
 
                     System.out.println("Informe a posição da peça a ser movida.");
@@ -118,7 +121,7 @@ public class KingsValleyClient {
 
                     switch (ret_movePeca) {
                         case 2:
-                            System.out.println("Voce perdeu!");
+                            System.out.println("Você perdeu!");
                             game.encerraPartida(id);
                             System.exit(0);
                         case 1:
@@ -132,16 +135,17 @@ public class KingsValleyClient {
                             System.out.println("Parâmetros inválidos!");
                             break;
                         case -2:
-                            System.err.println("Nao existem dois jogadores nesta partida!");
+                            System.err.println("Não existem dois jogadores nesta partida!");
                             game.encerraPartida(id);
                             System.exit(1);
                         case -3:
                             System.out.println("Parâmetros inválidos!");
                             break;
                         case -4:
-                            System.out.println("Nao é a sua vez de jogar!");
+                            System.out.println("Não é a sua vez de jogar!");
                             break;
                     }
+
                 }
             }
 

@@ -346,12 +346,12 @@ public class KingsValley extends UnicastRemoteObject implements IKingsValley {
         Player p = getPlayerById(id);
 
         if(p == null) {
-            return -1;      // Parêmetros inválidos
+            return -1;      // Parâmetros inválidos
         }
 
         Match m = p.getMatch();
         if(m == null) {
-            return -3;      // Parêmetros inválidos
+            return -3;      // Parâmetros inválidos
         }
 
         if(!m.isReady()) {

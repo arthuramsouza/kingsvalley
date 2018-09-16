@@ -20,21 +20,21 @@ public class Match {
 
         for(int i = 0; i < 5; i++) {
             if(i == 2)
-                this.board[0][i] = PLAYER1_REI;
+                this.board[i][0] = PLAYER1_REI;
             else
-                this.board[0][i] = PLAYER1_SOLDAOD;
+                this.board[i][0] = PLAYER1_SOLDAOD;
         }
 
         for(int i = 0; i < 5; i++) {
             if(i == 2)
-                this.board[4][i] = PLAYER2_REI;
+                this.board[i][4] = PLAYER2_REI;
             else
-                this.board[4][i] = PLAYER2_SOLDADO;
+                this.board[i][4] = PLAYER2_SOLDADO;
         }
 
         for(int j = 1; j < 4; j++) {
             for (int i = 0; i < 5; i++) {
-                this.board[j][i] = VAZIO;
+                this.board[i][j] = VAZIO;
             }
         }
 
@@ -65,7 +65,7 @@ public class Match {
     public Player getCurrentPlayer() { return this.currentPlayer; }
 
     private void changeTurn() {
-    this.currentPlayer = (this.currentPlayer == this.player1 ? this.player2 : this.player1);
+        this.currentPlayer = (this.currentPlayer == this.player1 ? this.player2 : this.player1);
     }
 
     public int movePeca(int linha, int coluna, int sentido) {
@@ -75,121 +75,123 @@ public class Match {
         }
 
         if (currentPlayer == player1) {
-            if (board[linha][coluna] == 's' || board[linha][coluna] == 'r') {
+            if (board[linha][coluna] == PLAYER2_SOLDADO || board[linha][coluna] == PLAYER2_REI) {
                 return 0; // peca do player 2
             }
         }
         else if (currentPlayer == player2) {
-            if (board[linha][coluna] == 'S' || board[linha][coluna] == 'R') {
+            if (board[linha][coluna] == PLAYER1_SOLDAOD || board[linha][coluna] == PLAYER1_REI) {
                 return 0; // peca do player 1
             }
         }
 
-    char peca = board[linha][coluna];
-    int aux1 = coluna;
-    int aux2 = linha;
+        char peca = board[linha][coluna];
+        int aux1 = coluna;
+        int aux2 = linha;
 
-    switch(sentido) {
+        switch(sentido) {
 
-        case 0: // para a direita
+            case 0: // para a direita
 
-            if (board[linha][coluna + 1] != VAZIO)
-                return 0;
-            else {
-                while (++aux1 <= 4 && board[aux2][aux1] == VAZIO) {
-                    board[aux2][aux1] = peca;
-                    board[aux2][aux1 - 1] = VAZIO;
+                if (board[linha][coluna + 1] != VAZIO)
+                    return 0;
+                else {
+                    while (++aux1 <= 4 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2][aux1 - 1] = VAZIO;
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 1: // diagonal direita-inferior
+            case 1: // diagonal direita-inferior
 
-            if (board[linha + 1][coluna + 1] != VAZIO)
-                return 0;
-            else {
-                while (++aux1 <= 4 && ++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
-                    board[aux2][aux1] = peca;
-                    board[aux2 - 1][aux1 - 1] = VAZIO;
+                if (board[linha + 1][coluna + 1] != VAZIO)
+                    return 0;
+                else {
+                    while (++aux1 <= 4 && ++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2 - 1][aux1 - 1] = VAZIO;
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 2: // para baixo
+            case 2: // para baixo
 
-            if (board[linha + 1][coluna] != VAZIO)
-                return 0;
-            else {
-                while (++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
-                    board[aux2][aux1] = peca;
-                    board[aux2 - 1][aux1] = VAZIO;
+                if (board[linha + 1][coluna] != VAZIO)
+                    return 0;
+                else {
+                    while (++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2 - 1][aux1] = VAZIO;
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 3: // diagonal esquerda-inferior
+            case 3: // diagonal esquerda-inferior
 
-            if (board[linha + 1][coluna - 1] != VAZIO)
-                return 0;
-            else {
-                board[aux2][aux1] = VAZIO;
-                while (--aux1 >= 0 && ++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
-                    board[aux2][aux1] = peca;
-                    board[aux2 - 1][aux1 + 1] = VAZIO;
+                if (board[linha + 1][coluna - 1] != VAZIO)
+                    return 0;
+                else {
+                    board[aux2][aux1] = VAZIO;
+                    while (--aux1 >= 0 && ++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2 - 1][aux1 + 1] = VAZIO;
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 4: // para a esquerda
+            case 4: // para a esquerda
 
-            if (board[linha][coluna - 1] != VAZIO)
-                return 0;
-            else {
-                while (--aux1 >= 0 && board[aux2][aux1] == VAZIO) {
-                    board[aux2][aux1] = peca;
-                    board[aux2][aux1 + 1] = VAZIO;
+                if (board[linha][coluna - 1] != VAZIO)
+                    return 0;
+                else {
+                    while (--aux1 >= 0 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2][aux1 + 1] = VAZIO;
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 5: // diagonal esquerda-superior
+            case 5: // diagonal esquerda-superior
 
-            if (board[linha - 1][coluna - 1] != VAZIO)
-                return 0;
-            else {
-                while (--aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
-                    board[aux2][aux1] = peca;
-                    board[aux2 + 1][aux1 + 1] = VAZIO;
+                if (board[linha - 1][coluna - 1] != VAZIO)
+                    return 0;
+                else {
+                    while (--aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2 + 1][aux1 + 1] = VAZIO;
+                    }
                 }
-            }
-            break;
+                break;
 
-        case 6: // para cima
+            case 6: // para cima
 
-            if (board[linha - 1][coluna] != VAZIO)
-                return 0;
-            else {
-                while (--aux2 >= 0 && board[aux2][aux1] == VAZIO)
-                    board[aux2][aux1] = peca;
-                board[aux2 + 1][aux1] = VAZIO;
-            }
-            break;
+                if (board[linha - 1][coluna] != VAZIO)
+                    return 0;
+                else {
+                    while (--aux2 >= 0 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2 + 1][aux1] = VAZIO;
+                    }
+                }
+                break;
 
-        case 7: // diagonal direita-superior
+            case 7: // diagonal direita-superior
 
-            if (board[linha - 1][coluna + 1] != VAZIO)
-                return 0;
-            else {
-                while (++aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO)
-                    board[aux2][aux1] = peca;
-                board[aux2 + 1][aux1 - 1] = VAZIO;
-            }
-            break;
-    }
+                if (board[linha - 1][coluna + 1] != VAZIO)
+                    return 0;
+                else {
+                    while (++aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
+                        board[aux2][aux1] = peca;
+                        board[aux2 + 1][aux1 - 1] = VAZIO;
+                    }
+                }
+                break;
+        }
 
-    currentPlayer.updateTimestamp();
-    this.changeTurn();
-    return 1;
+        currentPlayer.updateTimestamp();
+        this.changeTurn();
+        return 1;
     }
 
     public boolean hasTimedOut() {
