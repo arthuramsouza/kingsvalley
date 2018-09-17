@@ -52,9 +52,9 @@ public class Match {
     public boolean canDelete() { return this.player1 == null && this.player2 == null; }
 
     public Player getGanhador() {
-        if (board[3][3] == PLAYER1_REI)
+        if (board[2][2] == PLAYER1_REI)
             return player1;
-        else if (board[3][3] == PLAYER2_REI)
+        else if (board[2][2] == PLAYER2_REI)
             return player2;
         else
             return null;
