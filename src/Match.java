@@ -99,7 +99,9 @@ public class Match {
 
             case 0: // para a direita
 
-                if ((board[linha][coluna + 1] != VAZIO) || ((coluna + 1) > 4))
+                if ((coluna + 1) > 4)
+                    return 0;
+                if (board[linha][coluna + 1] != VAZIO)
                     return 0;
                 else {
                     while (++aux1 <= 4 && board[aux2][aux1] == VAZIO) {
@@ -111,7 +113,9 @@ public class Match {
 
             case 1: // diagonal direita-inferior
 
-                if (board[linha + 1][coluna + 1] != VAZIO || ((linha + 1) > 4) || ((coluna + 1) > 4))
+                if (((linha + 1) > 4) || ((coluna + 1) > 4))
+                    return 0;
+                else if (board[linha + 1][coluna + 1] != VAZIO)
                     return 0;
                 else {
                     while (++aux1 <= 4 && ++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
@@ -123,7 +127,9 @@ public class Match {
 
             case 2: // para baixo
 
-                if (board[linha + 1][coluna] != VAZIO || ((linha + 1) > 4))
+                if ((linha + 1) > 4)
+                    return 0;
+                else if (board[linha + 1][coluna] != VAZIO)
                     return 0;
                 else {
                     while (++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
@@ -135,7 +141,9 @@ public class Match {
 
             case 3: // diagonal esquerda-inferior
 
-                if (board[linha + 1][coluna - 1] != VAZIO || ((linha + 1) > 4) || ((coluna - 1) < 0))
+                if (((linha + 1) > 4) || ((coluna - 1) < 0))
+                    return 0;
+                else if (board[linha + 1][coluna - 1] != VAZIO)
                     return 0;
                 else {
                     board[aux2][aux1] = VAZIO;
@@ -148,7 +156,9 @@ public class Match {
 
             case 4: // para a esquerda
 
-                if (board[linha][coluna - 1] != VAZIO || ((coluna - 1) < 0))
+                if ((coluna - 1) < 0)
+                    return 0;
+                else if (board[linha][coluna - 1] != VAZIO)
                     return 0;
                 else {
                     while (--aux1 >= 0 && board[aux2][aux1] == VAZIO) {
@@ -160,7 +170,9 @@ public class Match {
 
             case 5: // diagonal esquerda-superior
 
-                if (board[linha - 1][coluna - 1] != VAZIO || ((linha - 1) < 0) || ((coluna - 1) < 0))
+                if (((linha - 1) < 0) || ((coluna - 1) < 0))
+                    return 0;
+                else if (board[linha - 1][coluna - 1] != VAZIO)
                     return 0;
                 else {
                     while (--aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
@@ -172,7 +184,9 @@ public class Match {
 
             case 6: // para cima
 
-                if (board[linha - 1][coluna] != VAZIO || ((linha - 1) < 0))
+                if ((linha - 1) < 0)
+                    return 0;
+                else if (board[linha - 1][coluna] != VAZIO)
                     return 0;
                 else {
                     while (--aux2 >= 0 && board[aux2][aux1] == VAZIO) {
@@ -184,7 +198,9 @@ public class Match {
 
             case 7: // diagonal direita-superior
 
-                if (board[linha - 1][coluna + 1] != VAZIO || ((linha - 1) < 0) || ((coluna + 1) > 4))
+                if (((linha - 1) < 0) || ((coluna + 1) > 4))
+                    return 0;
+                if (board[linha - 1][coluna + 1] != VAZIO)
                     return 0;
                 else {
                     while (++aux1 <= 4 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
