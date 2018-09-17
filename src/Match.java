@@ -4,6 +4,7 @@ public class Match {
     private char[][] board = new char[5][5];
     private boolean ready;
     private Player currentPlayer;
+    private boolean firstMove;
 
     private static final char VAZIO = '.';
     private static final char PLAYER1_SOLDAOD = 'c';
@@ -15,6 +16,7 @@ public class Match {
         this.player1 = player1;
         this.ready = false;
         this.currentPlayer = this.player1;
+        this.firstMove = true;
 
         // Inicia o tabuleiro
 
@@ -70,17 +72,21 @@ public class Match {
 
     public int movePeca(int linha, int coluna, int sentido) {
 
-        if (linha < 0 || linha > 4 || coluna < 0 || coluna > 4 || sentido < 0 || sentido > 7) {
+        if ((linha < 0) || (linha > 4) || (coluna < 0) || (coluna > 4) || (sentido < 0) || (sentido > 7)) {
+            return 0;
+        }
+
+        if(firstMove && ((board[linha][coluna] == PLAYER1_REI) || (board[linha][coluna] == PLAYER2_REI))) {
             return 0;
         }
 
         if (currentPlayer == player1) {
-            if (board[linha][coluna] == PLAYER2_SOLDADO || board[linha][coluna] == PLAYER2_REI) {
+            if ((board[linha][coluna] == PLAYER2_SOLDADO) || (board[linha][coluna] == PLAYER2_REI)) {
                 return 0; // peca do player 2
             }
         }
         else if (currentPlayer == player2) {
-            if (board[linha][coluna] == PLAYER1_SOLDAOD || board[linha][coluna] == PLAYER1_REI) {
+            if ((board[linha][coluna] == PLAYER1_SOLDAOD) || (board[linha][coluna] == PLAYER1_REI)) {
                 return 0; // peca do player 1
             }
         }
@@ -93,7 +99,7 @@ public class Match {
 
             case 0: // para a direita
 
-                if (board[linha][coluna + 1] != VAZIO)
+                if ((board[linha][coluna + 1] != VAZIO) || ((coluna + 1) > 4))
                     return 0;
                 else {
                     while (++aux1 <= 4 && board[aux2][aux1] == VAZIO) {
@@ -105,7 +111,7 @@ public class Match {
 
             case 1: // diagonal direita-inferior
 
-                if (board[linha + 1][coluna + 1] != VAZIO)
+                if (board[linha + 1][coluna + 1] != VAZIO || ((linha + 1) > 4) || ((coluna + 1) > 4))
                     return 0;
                 else {
                     while (++aux1 <= 4 && ++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
@@ -117,7 +123,7 @@ public class Match {
 
             case 2: // para baixo
 
-                if (board[linha + 1][coluna] != VAZIO)
+                if (board[linha + 1][coluna] != VAZIO || ((linha + 1) > 4))
                     return 0;
                 else {
                     while (++aux2 <= 4 && board[aux2][aux1] == VAZIO) {
@@ -129,7 +135,7 @@ public class Match {
 
             case 3: // diagonal esquerda-inferior
 
-                if (board[linha + 1][coluna - 1] != VAZIO)
+                if (board[linha + 1][coluna - 1] != VAZIO || ((linha + 1) > 4) || ((coluna - 1) < 0))
                     return 0;
                 else {
                     board[aux2][aux1] = VAZIO;
@@ -142,7 +148,7 @@ public class Match {
 
             case 4: // para a esquerda
 
-                if (board[linha][coluna - 1] != VAZIO)
+                if (board[linha][coluna - 1] != VAZIO || ((coluna - 1) < 0))
                     return 0;
                 else {
                     while (--aux1 >= 0 && board[aux2][aux1] == VAZIO) {
@@ -154,7 +160,7 @@ public class Match {
 
             case 5: // diagonal esquerda-superior
 
-                if (board[linha - 1][coluna - 1] != VAZIO)
+                if (board[linha - 1][coluna - 1] != VAZIO || ((linha - 1) < 0) || ((coluna - 1) < 0))
                     return 0;
                 else {
                     while (--aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
@@ -166,7 +172,7 @@ public class Match {
 
             case 6: // para cima
 
-                if (board[linha - 1][coluna] != VAZIO)
+                if (board[linha - 1][coluna] != VAZIO || ((linha - 1) < 0))
                     return 0;
                 else {
                     while (--aux2 >= 0 && board[aux2][aux1] == VAZIO) {
@@ -178,17 +184,17 @@ public class Match {
 
             case 7: // diagonal direita-superior
 
-                if (board[linha - 1][coluna + 1] != VAZIO)
+                if (board[linha - 1][coluna + 1] != VAZIO || ((linha - 1) < 0) || ((coluna + 1) > 4))
                     return 0;
                 else {
-                    while (++aux1 >= 0 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
+                    while (++aux1 <= 4 && --aux2 >= 0 && board[aux2][aux1] == VAZIO) {
                         board[aux2][aux1] = peca;
                         board[aux2 + 1][aux1 - 1] = VAZIO;
                     }
                 }
                 break;
         }
-
+        firstMove = false;
         currentPlayer.updateTimestamp();
         this.changeTurn();
         return 1;

@@ -71,6 +71,8 @@ public class KingsValleyClient {
                     System.exit(1);
                 }
 
+
+
                 switch (isMyTurn) {
                     case 2:
                         message = "Você venceu!";
